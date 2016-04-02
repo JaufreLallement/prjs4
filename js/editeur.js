@@ -12,6 +12,7 @@ NBSLIDE = $("#slide-list").length; // Nombre de slides
 SELECTEDSLIDETITLE = '';
 EDITING = false; // Statut, true si l'édition d'une slide est en cours, false sinon.
 EDITING_TITLE = false; // true si l'édition du titre est en cours, false sinon.
+DRAG = false; // true si une slide est en train d'être déplacée, false sinon.
 
 CURRENT_SLIDE = null; // slide actuellement sélectionnée
 /* -------------------------------------- FIN VARIABLES GLOBALES -------------------------------------- */
@@ -926,14 +927,15 @@ $(document).ready(function() {
 	// Gestion des slides sortable.
 	$(document).bind('keyup', function(e) {
 		if (!e.ctrlKey) {
-			$("#slide-list li:hover").css({"cursor": "pointer"});
+			$("#slide-list li").css({"cursor":"pointer"});
 			$( ".sortable" ).sortable();
 			$( ".sortable" ).sortable("disable");
 			if (DRAG) { $( ".sortable" ).sortable("cancel"); }
 		}
 	}).bind('keydown', function(e) {
-		if (e.ctrlKey) {
-			$("#slide-list li:hover").css({"cursor": "move"});
+		if (e.ctrlKey) {			
+			$("#slide-list li").css({"cursor":"move"});
+			
 			$(".sortable").sortable({
 				start: function(event, ui) {
 					DRAG = true;
@@ -945,7 +947,6 @@ $(document).ready(function() {
 			$(".sortable").sortable("option", "disabled", false);
 		}
 	});
-
 
 	// Gestion de l'ajout de texte.
 	$(".text-area").jqte();

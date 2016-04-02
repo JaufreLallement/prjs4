@@ -438,8 +438,10 @@ header {
 	position: absolute;
 	width: 55%;
 	height: 75%;
-	background-repeat: no-repeat;
-	background-attachment: center;
+	background: no-repeat center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
 	background-size: cover;
 	border-radius: 5px;
 	left: 22%;

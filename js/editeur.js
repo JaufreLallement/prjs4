@@ -924,21 +924,25 @@ $(document).ready(function() {
 
 /* -------------------------------------- GESTION DES PLUGINS -------------------------------------- */
 	// Gestion des slides sortable.
-	$(document).bind('keydown', function(e) {
-		if (e.ctrlKey) {
-			$("#slide-list li:hover").css({
-				"cursor": "move"
-			});
-			$(".sortable").sortable();
-			$(".sortable").sortable("option", "disabled", false);
-		}
-	}).bind('keyup', function(e) {
+	$(document).bind('keyup', function(e) {
 		if (!e.ctrlKey) {
-			$("#slide-list li:hover").css({
-				"cursor": "pointer"
-			});
+			$("#slide-list li:hover").css({"cursor": "pointer"});
+			$( ".sortable" ).sortable();
 			$( ".sortable" ).sortable("disable");
-			$( ".sortable" ).sortable("cancel");
+			if (DRAG) { $( ".sortable" ).sortable("cancel"); }
+		}
+	}).bind('keydown', function(e) {
+		if (e.ctrlKey) {
+			$("#slide-list li:hover").css({"cursor": "move"});
+			$(".sortable").sortable({
+				start: function(event, ui) {
+					DRAG = true;
+				},
+				stop: function(event, ui) {
+					DRAG = false;
+				}
+			});
+			$(".sortable").sortable("option", "disabled", false);
 		}
 	});
 

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="icon" type="image/png" href="img/diaporama_37104.png" />
+		<meta name="description" content="Editeur de Présentations">
+		<meta name="keywords" content="HTML5, CSS3">
+		<meta name="author" content="Lallement Jaufré">
+		<link rel="stylesheet" type="text/css" href="./css/jquery-te-1.4.0.css">
+		<link rel="stylesheet" href="./css/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="./css/glyphicon.css">
+		<link rel="stylesheet" type="text/css" href="./css/editeur.css">
+
+		<script src="./js/fullscreen_var.js"></script>
+		<script src="./js/jquery_var.js"></script>
+		<script src="./js/script_var.js"></script>
+		<script src="./js/jquery-2.2.2.min.js"></script>
+		<script src="./js/jquery-ui/jquery-ui.js"></script>
+		<script src="./js/jQuery-TE/jquery-te-1.4.0.min.js"></script>
+		<script src="./js/arrayToTable.function.js"></script>
+		<script src="./js/class/block.class.js"></script>
+	    <script src="./js/class/blockArray.class.js"></script>
+	    <script src="./js/class/blockPicture.class.js"></script>
+	    <script src="./js/class/blockText.class.js"></script>
+	    <script src="./js/class/blockVideo.class.js"></script>
+	    <script src="./js/class/presentation.class.js"></script>
+	    <script src="./js/class/slide.class.js"></script>
+	    <script src="./js/jsonToClass.function.js"></script>
+		<script src="./js/editeur.js"></script>
+
+		<title>Editeur de Présentations</title>		
+	</head>
+
+	<body>
+		<header>
+			<h1 id="title" title="Double-cliquez ici pour éditer le titre de votre présentation">Ma Présentation</h1>
+		</header>
+
+		<a id="shade"></a>
+
+		<!-- Popup d'initialisation du titre -->
+		<div id="title-popup" class="popup">
+			<span class="close">X</span>
+
+			<form id="title-form">
+				<legend>Choisissez un titre pour votre présentation</legend>
+
+				<input type="text" id="title-input" name="title" title="Ajoutez votre titre ici">
+
+				<div class="button">
+					<button type="button" id="valid-title" class="valid">Valider</button>
+					<button type="button" id="open-existing-pres" class="open openButton" title="Vous pouvez également ouvrir une présentation existante">Ouvrir</button>
+					<input type="file" id="lfc" class="load-file" name="load">
+				</div>
+			</form>
+
+			<div class="error">Aucun texte détecté.</div>
+		</div>
+		<!-- -->
+
+
+		<!-- Popup de création d'une slide -->
+		<div id="slide-popup" class="popup">
+			<span class="close">X</span>
+
+			<form id="slide-form">
+				<legend>Titre de la diapositive</legend>
+
+				<input type="text" id="slide-title" name="title" title="Ajoutez votre titre ici">			
+
+				<button type="button" id="valid-slide" class="valid">Valider</button>
+			</form>
+
+			<div class="error">Aucun texte détecté.</div>
+		</div>
+		<!-- -->
+
+
+		<!-- Popup de suppression d'une slide -->
+		<div id="suppr-popup" class="popup">
+			<span class="close">X</span>
+
+			<form id="slide-suppr-form">
+				<legend>Êtes-vous certain de vouloir supprimer cette slide?</legend>
+
+				<div id="suppr-popup-buttons">
+					<button type="button" id="valid-suppr" class="valid">Oui</button>
+					<button type="button" id="cancel-suppr" class="cancel">Non</button>
+				</div>
+			</form>
+
+			<div class="error">Votre présentation doit comporter au minimum une slide.</div>
+		</div>
+		<!-- -->
+
+
+		<!-- Popup de création d'un bloc texte -->
+		<div id="text-popup" class="popup">
+			<span class="close">X</span>
+
+			<form id="text-form">
+				<legend id="text-popup-title">Texte à ajouter</legend>
+
+				<textarea class="text-area"></textarea>
+
+				<button type="button" id="valid-text" class="valid">Valider</button>
+			</form>
+
+			<div class="error"></div>
+		</div>
+		<!-- -->
+
+
+		<!-- Popup d'édition' d'un bloc texte -->
+		<div id="text-popup-edit" class="popup">
+			<span class="close">X</span>
+
+			<form id="text-form-edit">
+				<legend id="text-popup-title-edit">Modifier le texte</legend>
+
+				<textarea class="text-area"></textarea>
+
+				<button type="button" id="valid-text-edit" class="valid">Valider</button>
+			</form>
+
+			<div class="error"></div>
+		</div>
+		<!-- -->
+
+
+		<!-- Popup de création d'un bloc image -->
+		<div id="picture-popup" class="popup">
+			<span class="close">X</span>
+
+			<form id="picture-form">
+				<legend>Image à ajouter</legend>
+
+				<button type="button" class="uploadButton">Choisir un fichier</button>
+				<input type="file" id="picture-file" name="picture">
+				<input type="text" id="picture-desc" name="description" class="text-area">
+
+				<select id="bg-descPicture-selector" name="legend-bg-color" title="Background de la description">
+					<option value="blanc">Blanc</option>
+                    <option value="noir">Noir</option>
+                </select>
+
+				<button type="button" id="valid-picture" class="valid">Valider</button>			
+			</form>
+
+			<div class="error"></div>
+		</div>
+		<!-- -->
+
+
+		<!-- Popup d'édition d'un bloc image -->
+		<div id="picture-popup-edit" class="popup">
+			<span class="close">X</span>
+
+			<form id="picture-form-edit">
+				<legend>Modifier l'image</legend>
+
+				<button type="button" class="uploadButton">Choisir un fichier</button>
+				<input type="file" id="picture-file-edit" name="picture">
+				<input type="text" id="picture-desc-edit" name="description" class="text-area">
+
+				<select id="bg-descPicture-selector-edit" name="legend-bg-color" title="Background de la description de l'image">
+					<option value="blanc">Blanc</option>
+                    <option value="noir">Noir</option>
+                </select>
+
+				<button type="button" id="valid-picture-edit" class="valid">Valider</button>
+			</form>
+
+			<div class="error"></div>
+		</div>
+		<!-- -->
+
+
+		<!-- Popup de création d'un bloc video -->
+		<div id="video-popup" class="popup">
+			<span class="close">X</span>
+
+			<form id="video-form">
+				<legend>Vidéo à ajouter</legend>
+
+				<button type="button" class="uploadButton">Choisir un fichier</button>
+				<input type="file" id="video-file" name="video">
+
+				<input type="text" id="video-desc" name="description" class="text-area">
+
+				<button type="button" id="valid-video" class="valid">Valider</button>
+			</form>
+
+			<div class="error"></div>
+		</div>
+		<!-- -->
+
+
+		<!-- Popup de création d'un bloc array -->
+		<div id="array-popup" class="popup">
+			<span class="close">X</span>
+
+			<form id="array-form">
+				<legend>Tableau à ajouter</legend>
+
+				<div id="arrayRows">
+					<p> Nombre de lignes </p>
+					<input id="nRows" type="number" step="1" min="1" max="30" value="1">
+				</div>
+
+				<div id="arrayCols">
+					<p> Nombre de colonnes </p>
+					<input id="nCols" type="number" step="1" min="1" max="30" value="1">
+				</div>
+
+				<button type="button" id="valid-array" class="valid">Valider</button>
+			</form>
+
+			<div class="error"></div>
+		</div>
+		<!-- -->
+
+
+		<!-- Popup d'édition' d'une cellule de tableau -->
+		<div id="table-edit" class="popup">
+			<span class="close">X</span>
+
+			<form id="table-form-edit">
+				<legend id="table-popup-title-edit">Modifier une cellule</legend>
+
+				<textarea class="text-area"></textarea>
+
+				<button type="button" id="valid-table-edit" class="valid">Valider</button>
+			</form>
+
+			<div class="error"></div>
+		</div>
+		<!-- -->
+
+
+		<!-- Popup de modification du background -->
+		<div id="background-popup" class="popup">
+			<span class="close">X</span>
+
+			<form id="background-form">
+				<legend>Choisissez un background</legend>
+
+				<button type="button" class="uploadButton">Choisir un fichier</button>
+				<input type="file" id="background-file" name="picture">
+
+				<button type="button" id="valid-background" class="valid">Valider</button>			
+			</form>
+
+			<div class="error"></div>
+		</div>
+		<!-- -->
+
+
+		<!-- Conteneur des slides -->
+		<aside id="slides">
+			<h2>Slides</h2>
+
+			<div id="slides-container" class="container" title="Maintenez CTRL pour déplacer les slides">
+				<ul id="slide-list" class="sortable">
+				</ul>
+			</div>
+
+			<div id="slide-buttons">
+				<button id="ajout-slide" class="add" onclick="showPopup('slide-popup')" title="Ajouter une slide">Ajouter</button>
+				<button id="suppr-slide" class="suppr" onclick="showPopup('suppr-popup')" title="Supprimer une slide">Supprimer</button>
+				<button id="dupl-slide" class="dupl" onclick="dupliquer()" title="Dupliquer la slide courante">Dupliquer</button>
+			</div>
+		</aside>
+		<!-- -->
+
+
+		<!-- Toolbox -->
+		<div id="toolbox">
+			<a target="_blank" id="new-pres-link" href="" title="Cliquez ici pour ouvrir une nouvelle présentation"><span id="new-pres" class="glyphicon glyphicon-file"></span></a>
+			<span id="open-pres" class="glyphicon glyphicon-folder-open openButton" title="Cliquez ici pour ouvrir une présentation existante"></span>
+			<input type="file" class="load-file" name="load">
+			<a id="dl-pres" title="Cliquez ici pour sauvegarder"><span id="save-pres" class="glyphicon glyphicon-floppy-save"></span></a>
+			<a id="exp-pres"><span id="export-pres" class="glyphicon glyphicon-export" title="Cliquez ici pour générer votre présentation"></span></a>
+		</div>
+		<!-- -->
+
+
+		<!-- Emplacement du contenu de la slide sélectionnée -->
+		<article id="current-slide" >
+		</article>
+
+		<!-- -->
+		<button id="change-background" title="Cliquez pour modifier le background de cette slide">Changer le background</button>
+
+
+		<!-- Conteneur des blocs -->
+		<aside id="blocs">
+			<h2>Blocs</h2>
+
+			<div id="blocs-container" class="container">
+				<ul id="bloc-list" >
+					<li id="text-block" class="block" onclick="showPopup('text-popup')" title="Ajout d'un bloc de texte">Texte</li>
+					<li id="picture-block" class="block" onclick="showPopup('picture-popup')" title="Ajout d'une image">Image</li>
+					<li id="video-block" class="block" onclick="showPopup('video-popup')" title="Ajout d'une video">Video</li>
+					<li id="array-block" class="block" onclick="showPopup('array-popup')" title="Ajout d'un tableau">Tableau</li>
+				</ul>
+			</div>
+		</aside>
+		<!-- -->
+
+
+		<footer>
+		</footer>
+	</body>
+</html>

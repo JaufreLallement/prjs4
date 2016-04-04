@@ -791,6 +791,7 @@ $(document).ready(function() {
 
 	// Gestion de la fermeture d'une popup.
 	close.on('click', function() {
+		$("#white-shade").hide();
 		closePopup(); // Fermeture des popups.
 	});
 
@@ -815,69 +816,15 @@ $(document).ready(function() {
 	// Gestion formulaire image/video
 	$(".uploadButton").on('click', function() {
 		$(this).next("[type=file]").click();
-
-		$("#picture-file").on('change', function() {
-			var filePath = $(this).val();
-			var isPicture = filePath.includes('.png') || filePath.includes('.jpg') || filePath.includes('.jpeg') || filePath.includes('.bmp') || filePath.includes('.gif');
-
-			if ((filePath == null) && (filePath == '') || (isPicture == false)) {
-				$(".uploadButton").removeClass('green');
-				$(".uploadButton").addClass('red');
-				$(".valid").attr('disabled', 'disabled');
-				$("#picture-popup .error").html('Le format de l\'image doit être png, jpg, jpeg, bmp ou gif.');
-				$("#picture-popup .error").slideDown(350);
-			} else {
-				$(".uploadButton").removeClass('red');
-				$(".uploadButton").addClass('green');
-				$("#picture-popup .error").slideUp(350);
-				$(".valid").removeAttr('disabled')
-			}
-		});
-
-
-		$("#video-file").on('change', function() {
-			var filePath = $(this).val();
-			var isVideo = filePath.includes('.mp4') || filePath.includes('.webm');
-
-			if ((filePath == null) && (filePath == '') || (isVideo == false)) {
-				$(".uploadButton").removeClass('green');
-				$(".uploadButton").addClass('red');
-				$(".valid").attr('disabled', 'disabled');
-				$("#video-popup .error").html('Le format de l\'image doit être mp4 ou webm.');
-				$("#video-popup .error").slideDown(350);
-			} else {
-				$(".uploadButton").removeClass('red');
-				$(".uploadButton").addClass('green');
-				$("#video-popup .error").slideUp(350);
-				$(".valid").removeAttr('disabled')
-			}
-		});
-
-		$("#background-file").on('change', function() {
-			var filePath = $(this).val();
-			var isPicture = filePath.includes('.png') || filePath.includes('.jpg') || filePath.includes('.jpeg') || filePath.includes('.bmp') || filePath.includes('.gif');
-
-			if ((filePath == null) && (filePath == '') || (isPicture == false)) {
-				$(".uploadButton").removeClass('green');
-				$(".uploadButton").addClass('red');
-				$(".valid").attr('disabled', 'disabled');
-				$("#background-popup .error").html('Le format de l\'image doit être png, jpg, jpeg, bmp ou gif.');
-				$("#background-popup .error").slideDown(350);
-			} else {
-				$(".uploadButton").removeClass('red');
-				$(".uploadButton").addClass('green');
-				$("#background-popup .error").slideUp(350);
-				$(".valid").removeAttr('disabled')
-			}
-		});
 	});
 
 	
 	$(".openButton").on('click', function() {
-			$(this).next("[type=file]").click();
-		});
-		$("#lfc").on('click',function(){
-		  closePopup();
+		$(this).next("[type=file]").click();
+	});
+
+	$("#lfc").on('click',function(){
+		closePopup();
 	});
 
 	// Gestion de la sauvegarde en JSON
@@ -893,8 +840,8 @@ $(document).ready(function() {
 
 	// Gestion de l'export en HTML'
 	$("#export-pres").on('click', function() {
-    // MAJ des positions avant d'exporter
-    majPosition();
+	    // MAJ des positions avant d'exporter
+	    majPosition();
 
 		var exp = pres.export();
 
@@ -1032,9 +979,217 @@ $(document).ready(function() {
         });
 
     });
+/* -------------------------------------- FIN GESTION DES PLUGINS -------------------------------------- */
+
+
+
+	// Sécurité sur la sélection d'un fichier image pour l'ajout ou l'édition d'un BlockPicture.
+	$("#picture-file, #picture-file-edit").on('change', function() {
+		var filePath = $(this).val();
+		var isPicture = filePath.includes('.png') || filePath.includes('.jpg') || filePath.includes('.jpeg') || filePath.includes('.bmp') || filePath.includes('.gif');
+
+		if ((filePath == null) && (filePath == '') || (isPicture == false)) {
+			$(".uploadButton").removeClass('green');
+			$(".uploadButton").addClass('red');
+			$(".valid").attr('disabled', 'disabled');
+			$("#picture-popup .error, #picture-popup-edit .error").html('Le format de l\'image doit être png, jpg, jpeg, bmp ou gif.');
+			$("#picture-popup .error, #picture-popup-edit .error").slideDown(350);
+		} else {
+			$(".uploadButton").removeClass('red');
+			$(".uploadButton").addClass('green');
+			$("#picture-popup .error, #picture-popup-edit .error").slideUp(350);
+			$(".valid").removeAttr('disabled')
+		}
+	});
+
+	
+	// Gestion de la séléction d'un fichier image lors de la création d'un BlockPicture.
+  	$("#valid-picture").on('click', function(e) {
+	    var error = $("#picture-popup .error");
+	    var input = $("#picture-file")[0];
+
+	    var colLeg = $("#bg-descPicture-selector").val();
+	    var fondLegende = (colLeg == "noir") ? true : false;
+
+	    if (input.files && input.files[0]) {
+	      var reader = new FileReader();
+	        reader.onload = function (e) {
+	            // l'image est chargée
+	            blockContent = e.target.result;
+	            var b = addBlock(CURRENT_SLIDE, "image", blockContent, $("#picture-form .jqte_editor").html(), fondLegende); // Ajout du bloc
+	            // MAJ de l'affichage et des données de position/taille du nv bloc
+	        	majAffichage();
+	            majSize($("#block-" + b.id));
+	            majPos($("#block-" + b.id));
+	        	closePopup();// Fermeture de la popup
+	        }
+
+	        reader.readAsDataURL(input.files[0]);
+	    }
+  	});
+
+
+  	// Sécurité sur la sélection d'un fichier image pour l'ajout d'un fond d'écran sur la slide actuelle.
+  	$("#background-file").on('change', function() {
+		var filePath = $(this).val();
+		var isPicture = filePath.includes('.png') || filePath.includes('.jpg') || filePath.includes('.jpeg') || filePath.includes('.bmp') || filePath.includes('.gif');
+
+		if ((filePath == null) && (filePath == '') || (isPicture == false)) {
+			$(".uploadButton").removeClass('green');
+			$(".uploadButton").addClass('red');
+			$(".valid").attr('disabled', 'disabled');
+			$("#background-popup .error").html('Le format de l\'image doit être png, jpg, jpeg, bmp ou gif.');
+			$("#background-popup .error").slideDown(350);
+		} else {
+			$(".uploadButton").removeClass('red');
+			$(".uploadButton").addClass('green');
+			$("#background-popup .error").slideUp(350);
+			$(".valid").removeAttr('disabled')
+		}
+	});
+
+
+  	// Gestion de la sélection d'un fichier image pour le fond d'écran de la slide actuelle
+  	$("#valid-background").on('click', function(e) {
+	    var error = $("#background-popup .error");
+	    var input = $("#background-file")[0];
+
+	    if (input.files && input.files[0]) {
+	      var reader = new FileReader();
+	        reader.onload = function (e) {
+	            // l'image est chargée
+	            var bg = e.target.result;
+	            CURRENT_SLIDE.background = bg;
+	            $("#current-slide").css({
+					"background-image": "url(" + bg + ")"
+				});
+
+	            // MAJ de l'affichage et des données de position/taille du nv bloc
+	        	majAffichage();
+	        	closePopup();// Fermeture de la popup
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    } else {
+	      // l'image n'est pas bonne, on affiche l'erreur
+	      error.html("Erreur dans l'ajout de l'image.");
+	      error.slideDown(350);
+	    }
+  	});
+
+
+  	// Gestion de la séléction d'un fichier image lors de l'édition d'un BlockPicture.
+  	$("#valid-picture-edit").on('click', function(e) {
+	    var block = pres.getBlockById($("#idbloc").val());
+
+	    var colLeg = $("#bg-descPicture-selector-edit").val();
+	    var fondLegende = (colLeg == "noir") ? true : false;
+	    block.colorLegend = fondLegende;
+
+	    // maj de la légende
+	    var legende = $("#picture-form-edit .jqte_editor").html();
+	    block.desc = legende; // MAJ du bloc
+
+	    // maj de l'image
+	    var input = $("#picture-file-edit")[0];
+	    if (input.files && input.files[0]) {
+	      var reader = new FileReader();
+	        reader.onload = function (e) {
+	            // l'image est chargée
+	            block.content = e.target.result; // maj du bloc
+	            // MAJ de l'affichage et des données de position/taille du nv bloc
+	        	majAffichage();
+	            majSize($("#block-" + block.id));
+	            majPos($("#block-" + block.id));
+	        	closePopup();// Fermeture de la popup
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    } else {
+	    	
+	    }
+
+	    majAffichage(); // MAJ de l'affichage
+
+	    $("#idbloc").remove(); // Fermeture de la popup
+	    closePopup();
+  	});
+
+
+	// Sécurité sur la sélection d'un fichier video pour l'ajout d'un BlockVideo.
+	$("#video-file").on('change', function() {
+		var filePath = $(this).val();
+		var isVideo = filePath.includes('.mp4') || filePath.includes('.webm');
+
+		if ((filePath == null) && (filePath == '') || (isVideo == false)) {
+			$(".uploadButton").removeClass('green');
+			$(".uploadButton").addClass('red');
+			$(".valid").attr('disabled', 'disabled');
+			$("#video-popup .error").html('Le format de l\'image doit être mp4 ou webm.');
+			$("#video-popup .error").slideDown(350);
+		} else {
+			$(".uploadButton").removeClass('red');
+			$(".uploadButton").addClass('green');
+			$("#video-popup .error").slideUp(350);
+			$(".valid").removeAttr('disabled')
+		}
+	});
+
+
+  	// Gestion de la séléction d'un fichier image lors de la création d'un BlockVideo.
+	$("#valid-video").on('click', function(e) {
+	    var error = $("#video-popup .error");
+	    var input = $("#video-file")[0];
+
+	    if (input.files && input.files[0]) {
+	      var reader = new FileReader();
+	        reader.onload = function (e) {
+	            // l'image est chargée
+	            blockContent = e.target.result;
+	            var b = addBlock(CURRENT_SLIDE, "video", blockContent, $("#picture-form .jqte_editor").html()); // Ajout du bloc
+	            // MAJ de l'affichage et des données de position/taille du nv bloc
+	        	majAffichage();
+	            majSize($("#block-" + b.id));
+	            majPos($("#block-" + b.id));
+	        	closePopup();// Fermeture de la popup
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    } else {
+	      // l'image n'est pas bonne, on affiche l'erreur
+	      error.html("Erreur dans l'ajout de la vidéo.");
+	      error.slideDown(350);
+	    }
+	});
+
+
+	// Gestion de l'ouverture d'une sauvegarde au format json.
+	$(".load-file").on('change',function(e){
+		var input = e.target;
+		var isJson = $(this).val().includes('.json');
+
+	    if (!input.files) {
+	    	$("#open-error").html('Aucun fichier détecté');
+	    	$("#white-shade").show();
+	    	$("#open-error").slideDown(350);
+	    } else if (!isJson) {
+	    	$("#open-error").html('Le fichier doit être au format json');
+	    	$("#white-shade").show();
+	    	$("#open-error").slideDown(350);
+	    } else {
+	      var reader = new FileReader();
+	        reader.onload = function (e) {
+	            var jsonFile = e.target.result;
+
+	            var test = jsonToClass(jsonFile);
+
+							pres=test;
+							updateSlideList();
+	            $("#title").text(test.titre);
+	            listenersARefresh();
+	        }
+	        reader.readAsText(input.files[0]);
+	    }
+	});
 
 });
-/* -------------------------------------- FIN GESTION DES PLUGINS -------------------------------------- */
 
 
 
@@ -1052,143 +1207,4 @@ $(function() {
   })
 });
 
-$(function() {
-  // Gestion du clic sur le bouton de validation d'image
-  $("#valid-picture").on('click', function(e) {
-    var error = $("#picture-popup .error");
-    var input = $("#picture-file")[0];
-
-    var colLeg = $("#bg-descPicture-selector").val();
-    var fondLegende = (colLeg == "noir") ? true : false;
-
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-        reader.onload = function (e) {
-            // l'image est chargée
-            blockContent = e.target.result;
-            var b = addBlock(CURRENT_SLIDE, "image", blockContent, $("#picture-form .jqte_editor").html(), fondLegende); // Ajout du bloc
-            // MAJ de l'affichage et des données de position/taille du nv bloc
-        	majAffichage();
-            majSize($("#block-" + b.id));
-            majPos($("#block-" + b.id));
-        	closePopup();// Fermeture de la popup
-        }
-        reader.readAsDataURL(input.files[0]);
-    } else {
-      // l'image n'est pas bonne, on affiche l'erreur
-      error.html("Erreur dans l'ajout de l'image.");
-      error.slideDown(350);
-    }
-  });
-
-
-  // Gestion du clic sur le bouton de validation du background
-  $("#valid-background").on('click', function(e) {
-    var error = $("#background-popup .error");
-    var input = $("#background-file")[0];
-
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-        reader.onload = function (e) {
-            // l'image est chargée
-            var bg = e.target.result;
-            CURRENT_SLIDE.background = bg;
-            $("#current-slide").css({
-				"background-image": "url(" + bg + ")"
-			});
-
-            // MAJ de l'affichage et des données de position/taille du nv bloc
-        	majAffichage();
-        	closePopup();// Fermeture de la popup
-        }
-        reader.readAsDataURL(input.files[0]);
-    } else {
-      // l'image n'est pas bonne, on affiche l'erreur
-      error.html("Erreur dans l'ajout de l'image.");
-      error.slideDown(350);
-    }
-  });
-
-
-  // Gestion du clic sur le bouton de validation d'édition d'une image
-  $("#valid-picture-edit").on('click', function(e) {
-    var block = pres.getBlockById($("#idbloc").val());
-
-    var colLeg = $("#bg-descPicture-selector-edit").val();
-    var fondLegende = (colLeg == "noir") ? true : false;
-    block.colorLegend = fondLegende;
-
-    // maj de la légende
-    var legende = $("#picture-form-edit .jqte_editor").html();
-    block.desc = legende; // MAJ du bloc
-
-    // maj de l'image
-    var input = $("#picture-file-edit")[0];
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-        reader.onload = function (e) {
-            // l'image est chargée
-            block.content = e.target.result; // maj du bloc
-            // MAJ de l'affichage et des données de position/taille du nv bloc
-        		majAffichage();
-            majSize($("#block-" + block.id));
-            majPos($("#block-" + block.id));
-        		closePopup();// Fermeture de la popup
-        }
-        reader.readAsDataURL(input.files[0]);
-    } else {
-      // l'image n'est pas bonne, on ne met rien à jour
-    }
-
-    majAffichage(); // MAJ de l'affichage
-
-    $("#idbloc").remove(); // Fermeture de la popup
-    closePopup();
-  });
-
-  // Gestion du clic sur le bouton de validation de vidéo
-	$("#valid-video").on('click', function(e) {
-    var error = $("#video-popup .error");
-    var input = $("#video-file")[0];
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-        reader.onload = function (e) {
-            // l'image est chargée
-            blockContent = e.target.result;
-            var b = addBlock(CURRENT_SLIDE, "video", blockContent, $("#picture-form .jqte_editor").html()); // Ajout du bloc
-            // MAJ de l'affichage et des données de position/taille du nv bloc
-        		majAffichage();
-            majSize($("#block-" + b.id));
-            majPos($("#block-" + b.id));
-        		closePopup();// Fermeture de la popup
-        }
-        reader.readAsDataURL(input.files[0]);
-    } else {
-      // l'image n'est pas bonne, on affiche l'erreur
-      error.html("Erreur dans l'ajout de la vidéo.");
-      error.slideDown(350);
-    }
-	});
-
-
-	$(".load-file").on('change',function(e){
-		var input = e.target;
-    if (input.files) {
-      var reader = new FileReader();
-        reader.onload = function (e) {
-            var jsonFile = e.target.result;
-						//console.log(jsonFile);
-            var test = jsonToClass(jsonFile);
-						//console.log(test);
-						pres=test;
-						updateSlideList();
-            $("#title").text(test.titre);
-            listenersARefresh();
-        }
-        reader.readAsText(input.files[0]);
-    }else {
-      console.log('fail');
-    }
-	});
-});
 /* -------------------------------------- FIN GESTION DES LISTENERS, ETC. -------------------------------------- */

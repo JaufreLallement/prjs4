@@ -69,7 +69,7 @@ Presentation.prototype.export = function () {
   var liste_slides = "";
   for (var i = 0; i < this.slides.length; i++) {
     var slide = this.slides[i];
-    liste_slides += "<div class='slide' style='background-image:url(" + slide.background + ")''>";
+    liste_slides += "<div class='slide' style='background-image:url(" + slide.background + ")'>";
     for (var j = 0; j < slide.blocks.length; j++) {
       var bloc = slide.blocks[j];
       liste_slides += bloc.exportHTML();

@@ -726,3 +726,22 @@ td, th {
 }
 
 /* Fin de gestion de la Toolbox */
+
+
+/* Gestion fenêtre loading */
+.loading-screen {
+    color: #000;
+    font-weight: bold;
+    font-size: 26px;
+    display: none;
+    text-align: center;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding-top: 45vh;
+}
+/* Fin gestion loading */

@@ -39,7 +39,7 @@ Slide.prototype.removeBlock = function (block) {
 }
 
 /**
- * Retourne l'aspect HTML de cette slide (dans l'(éditeur))
+ * Retourne l'aspect HTML de cette slide (dans l'éditeur)
  * @return {HTML}
  */
 Slide.prototype.toHTML = function () {
@@ -63,4 +63,3 @@ Slide.prototype.clone = function () {
   o.background = this.background;
   return o;
 }
-

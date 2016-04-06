@@ -182,7 +182,7 @@ function editTitle() {
 				$("#title").html(newTitle);
 				pres.titre = newTitle;
 			} else {
-				$("#title").html(currentTitle);			
+				$("#title").html(currentTitle);
 			}
 			EDITING_TITLE = false;
 		} else if (e.keyCode == 27) {
@@ -614,6 +614,9 @@ $(document).ready(function() {
 	setInterval(function () {
 	   var largeur = $("#current-slide").width();
 	   $("#current-slide").height(largeur * 9 / 16);
+
+     var nb = largeur / 50;
+     $("#current-slide").css("font-size", nb + "px");
 	}, 10);
 
 	// Création de la slide par défaut
@@ -688,7 +691,7 @@ $(document).ready(function() {
 			} else {
 				$("#title-popup .error").slideDown(350);
 			}
-			
+
 		}
 	});
 
@@ -701,7 +704,7 @@ $(document).ready(function() {
 			closePopup();
 		} else {
 			$("#title-popup .error").slideDown(350);
-		}		
+		}
 	});
 
 
@@ -712,7 +715,7 @@ $(document).ready(function() {
 		} else {
 			editTitle();
 		}
-	});	
+	});
 
 
 	// Gestion de la touche entrée pour l'ajout de tableau.
@@ -806,7 +809,7 @@ $(document).ready(function() {
 	$("#valid-suppr").on('click', function() {
 		deleteSlide(SELECTEDSLIDE); // Suppression d'une slide.
 	});
-	
+
 
 	$("#cancel-suppr").on('click', function() {
 		closePopup(); //Fermeture des popups.
@@ -818,7 +821,7 @@ $(document).ready(function() {
 		$(this).next("[type=file]").click();
 	});
 
-	
+
 	$(".openButton").on('click', function() {
 		$(this).next("[type=file]").click();
 	});
@@ -847,6 +850,8 @@ $(document).ready(function() {
 
 		$("#exp-pres").prop('download', pres.titre + '.html');
 		$("#exp-pres").prop('href', makeTextFile(exp));
+
+    window.location.href = "css/fonts/OpenSans-Regular.ttf";
 
 	});
 
@@ -880,9 +885,9 @@ $(document).ready(function() {
 			if (DRAG) { $( ".sortable" ).sortable("cancel"); }
 		}
 	}).bind('keydown', function(e) {
-		if (e.ctrlKey) {			
+		if (e.ctrlKey) {
 			$("#slide-list li").css({"cursor":"move"});
-			
+
 			$(".sortable").sortable({
 				start: function(event, ui) {
 					DRAG = true;
@@ -896,7 +901,10 @@ $(document).ready(function() {
 	});
 
 	// Gestion de l'ajout de texte.
-	$(".text-area").jqte();
+	$(".text-area").jqte({
+    funit: "%",
+    fsizes: ["100", "150", "200", "250"]
+  });
 
 	// Ajout des titles sur les jqte.
 	$("#text-popup .jqte").attr('title', 'Ecrivez votre texte ici');
@@ -1002,7 +1010,7 @@ $(document).ready(function() {
 		}
 	});
 
-	
+
 	// Gestion de la séléction d'un fichier image lors de la création d'un BlockPicture.
   	$("#valid-picture").on('click', function(e) {
 	    var error = $("#picture-popup .error");
@@ -1104,7 +1112,7 @@ $(document).ready(function() {
 	        }
 	        reader.readAsDataURL(input.files[0]);
 	    } else {
-	    	
+
 	    }
 
 	    majAffichage(); // MAJ de l'affichage

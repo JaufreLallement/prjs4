@@ -59,17 +59,17 @@ Presentation.prototype.getBlockById = function (idBlock) {
 
 /**
  * Retourne cette présentation sous format HTML
- * @return {HTML
+ * @return {HTML}
  */
 Presentation.prototype.export = function () {
   // on trie les slides par position avant de commencer
   this.slides.sort(function (a, b) {
     return a.position - b.position;
-  })
+  });
   var liste_slides = "";
   for (var i = 0; i < this.slides.length; i++) {
     var slide = this.slides[i];
-    liste_slides += "<div class='slide' style='background-image:url(" + slide.background + ")''>";
+    liste_slides += "<div class='slide' style='background-image:url(" + slide.background + ")'>";
     for (var j = 0; j < slide.blocks.length; j++) {
       var bloc = slide.blocks[j];
       liste_slides += bloc.exportHTML();
@@ -85,11 +85,17 @@ Presentation.prototype.export = function () {
   html +=       "<script>" + decodeURIComponent(FULLSCREEN_VAR) + "</script>";
   html +=       "<script>" + decodeURIComponent(SCRIPT_VAR) + "</script>";
   html +=       "<style>";
+  html +=         "@font-face { font-family: 'Open Sans'; src: url('OpenSans-Regular.ttf'); }";
   html +=         "* { margin: 0; padding: 0; overflow: hidden; }";
-  html +=         "body { font-size: 2vw; font-family: Calibri, Arial sans-serif}";
+  html +=         "body { font-size: 2vw; font-family: 'Open Sans', monospace }";
   html +=         "h1 { text-align: center; }";
-  html +=         ".slide { width: 100vw; height: 100vh; border: 1px dotted #000; position: relative; background-size: cover }";
-  html +=         ".slideCentre { padding-top: 40vh; text-align: center; }";
+  html +=         "h1 b { text-align: center; }";
+  html +=         ".slide { width: 100vw; height: 100vh; border: 1px dotted #000; position: relative; background: no-repeat center fixed; background-size: cover; }";
+  html +=         ".slideCentre { padding-top: 40vh; text-align: center;";
+  html +=         "background: -webkit-linear-gradient(left top, #fff, #f0f0f0);";
+  html +=         "background: -o-linear-gradient(bottom right, #fff, #f0f0f0);";
+  html +=         "background: -moz-linear-gradient(bottom right, #fff, #f0f0f0);";
+  html +=         "background: linear-gradient(to bottom right, #fff, #f0f0f0); }";
   html +=         ".buttonIntro { clear: both; width: 20%; padding: 1%; background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(220, 220, 220, 0.6)); border: 1px solid rgba(0, 0, 0, 0.5); border-radius: 5px; margin: auto; display: block; }";
   html +=         ".buttonIntro:hover { cursor: pointer; background-image: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(220, 220, 220, 0.6)); }";
   html +=         ".block { position: absolute; }";
@@ -103,16 +109,18 @@ Presentation.prototype.export = function () {
   html +=         ".legend_white { background-color: rgba(255, 255, 255, 0.7); color: #000; }";
   html +=         ".oneline { position: relative; text-align: justify; }";
   html +=         ".oneline:after { content:''; display:inline-block; width:100%; }";
+  html +=         ".explications { padding: 20px 0px; font-size: 1vw; }";
   html +=        "</style>";
   html +=     "</head>";
   html +=     "<body>";
   html +=       "<div class='slide start slideCentre'>";
-  html +=         "<button class='buttonIntro' onclick='startPresentation()'>Commencer la présentation</button>";
+  html +=       "<p class='explications'>Assurez-vous que le fichier 'OpenSans-Regular.ttf' se trouve dans le même répertoire que ce fichier HTML.<br> Tout est prêt ?</p>"
+  html +=         "<button class='buttonIntro' onclick='startPresentation()'>&rArr; On y va !</button>";
   html +=       "</div>";
   html +=       liste_slides;
   html +=       "<div class='slide slideCentre'>";
   html +=         "<h1>FIN</h1>";
-  html +=         "<button class='buttonIntro' onclick='stopPresentation()'>Quitter le plein écran</button>";
+  html +=         "<button class='buttonIntro' onclick='stopPresentation()'>Terminer la présentation</button>";
   html +=       "</div>";
   html +=     "</body>";
   html +=     "</html>";

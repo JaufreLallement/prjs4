@@ -1,15 +1,21 @@
+@font-face {
+    font-family: "Open Sans";
+    src: url('fonts/OpenSans-Regular.ttf');
+}
+
+
 /* ---------------------------------- CSS Editeur de Présentations ---------------------------------- */
 
 body {
 	overflow-x: hidden;
-	overflow-y: auto; 
-	font-family: Calibri, Arial sans-serif;
+	overflow-y: auto;
+	font-family: 'Open Sans', sans-serif;
 }
 
 /* Gestion des polices */
 h1  {
 	font-size: 55px;
-	word-wrap: break-word; 
+	word-wrap: break-word;
 }
 
 #title {
@@ -18,7 +24,7 @@ h1  {
 
 h2 {
 	font-size: 35px;
-	word-wrap: break-word; 
+	word-wrap: break-word;
 }
 
 h1, h2 {
@@ -185,11 +191,11 @@ input[type=file]{
 }
 
 .red {
-	border: 2px solid rgba(200, 0, 0, 1); 
+	border: 2px solid rgba(200, 0, 0, 1);
 }
 
 .green {
-	border: 2px solid rgba(0, 150, 0, 1); 
+	border: 2px solid rgba(0, 150, 0, 1);
 }
 
 input[inactive=true]{

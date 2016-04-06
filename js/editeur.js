@@ -7,14 +7,13 @@
 /* -------------------------------------- VARIABLES GLOBALES -------------------------------------- */
 var pres = new Presentation('Ma Présentation'); // Nouvelle présentation.
 
-SELECTEDSLIDE = null; // Slide actuellement sélectionnées.
+SELECTEDSLIDE = null; // Slide actuellement sélectionnée (graphique)
 NBSLIDE = $("#slide-list").length; // Nombre de slides
 SELECTEDSLIDETITLE = '';
 EDITING = false; // Statut, true si l'édition d'une slide est en cours, false sinon.
 EDITING_TITLE = false; // true si l'édition du titre est en cours, false sinon.
 DRAG = false; // true si une slide est en train d'être déplacée, false sinon.
-
-CURRENT_SLIDE = null; // slide actuellement sélectionnée
+CURRENT_SLIDE = null; // slide actuellement sélectionnée (objet)
 /* -------------------------------------- FIN VARIABLES GLOBALES -------------------------------------- */
 
 
@@ -1013,6 +1012,7 @@ $(document).ready(function() {
 
 	// Gestion de la séléction d'un fichier image lors de la création d'un BlockPicture.
   	$("#valid-picture").on('click', function(e) {
+      $(".loading-screen").show();
 	    var error = $("#picture-popup .error");
 	    var input = $("#picture-file")[0];
 
@@ -1021,16 +1021,19 @@ $(document).ready(function() {
 
 	    if (input.files && input.files[0]) {
 	      var reader = new FileReader();
-	        reader.onload = function (e) {
-	            // l'image est chargée
-	            blockContent = e.target.result;
-	            var b = addBlock(CURRENT_SLIDE, "image", blockContent, $("#picture-form .jqte_editor").html(), fondLegende); // Ajout du bloc
-	            // MAJ de l'affichage et des données de position/taille du nv bloc
-	        	majAffichage();
-	            majSize($("#block-" + b.id));
-	            majPos($("#block-" + b.id));
-	        	closePopup();// Fermeture de la popup
-	        }
+        reader.onloadend = function () {
+          $(".loading-screen").hide();
+        }
+        reader.onload = function (e) {
+          // l'image est chargée
+          blockContent = e.target.result;
+          var b = addBlock(CURRENT_SLIDE, "image", blockContent, $("#picture-form .jqte_editor").html(), fondLegende); // Ajout du bloc
+          // MAJ de l'affichage et des données de position/taille du nv bloc
+      	  majAffichage();
+          majSize($("#block-" + b.id));
+          majPos($("#block-" + b.id));
+      	  closePopup();// Fermeture de la popup
+        }
 
 	        reader.readAsDataURL(input.files[0]);
 	    }
@@ -1059,11 +1062,15 @@ $(document).ready(function() {
 
   	// Gestion de la sélection d'un fichier image pour le fond d'écran de la slide actuelle
   	$("#valid-background").on('click', function(e) {
+      $(".loading-screen").show();
 	    var error = $("#background-popup .error");
 	    var input = $("#background-file")[0];
 
 	    if (input.files && input.files[0]) {
 	      var reader = new FileReader();
+          reader.onloadend = function () {
+            $(".loading-screen").hide();
+          }
 	        reader.onload = function (e) {
 	            // l'image est chargée
 	            var bg = e.target.result;
@@ -1087,6 +1094,7 @@ $(document).ready(function() {
 
   	// Gestion de la séléction d'un fichier image lors de l'édition d'un BlockPicture.
   	$("#valid-picture-edit").on('click', function(e) {
+      $(".loading-screen").show();
 	    var block = pres.getBlockById($("#idbloc").val());
 
 	    var colLeg = $("#bg-descPicture-selector-edit").val();
@@ -1101,6 +1109,9 @@ $(document).ready(function() {
 	    var input = $("#picture-file-edit")[0];
 	    if (input.files && input.files[0]) {
 	      var reader = new FileReader();
+          reader.onloadend = function () {
+            $(".loading-screen").hide();
+          }
 	        reader.onload = function (e) {
 	            // l'image est chargée
 	            block.content = e.target.result; // maj du bloc
@@ -1144,11 +1155,15 @@ $(document).ready(function() {
 
   	// Gestion de la séléction d'un fichier image lors de la création d'un BlockVideo.
 	$("#valid-video").on('click', function(e) {
+      $(".loading-screen").show();
 	    var error = $("#video-popup .error");
 	    var input = $("#video-file")[0];
 
 	    if (input.files && input.files[0]) {
 	      var reader = new FileReader();
+          reader.onloadend = function () {
+            $(".loading-screen").hide();
+          }
 	        reader.onload = function (e) {
 	            // l'image est chargée
 	            blockContent = e.target.result;
@@ -1182,7 +1197,11 @@ $(document).ready(function() {
 	    	$("#white-shade").show();
 	    	$("#open-error").slideDown(350);
 	    } else {
+        $(".loading-screen").show();
 	      var reader = new FileReader();
+        reader.onloadend = function () {
+          $(".loading-screen").hide();
+        }
 	        reader.onload = function (e) {
 	            var jsonFile = e.target.result;
 

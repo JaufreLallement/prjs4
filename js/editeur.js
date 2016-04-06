@@ -851,6 +851,8 @@ $(document).ready(function() {
 		$("#exp-pres").prop('download', pres.titre + '.html');
 		$("#exp-pres").prop('href', makeTextFile(exp));
 
+    window.location.href = "css/fonts/OpenSans-Regular.ttf";
+
 	});
 
 

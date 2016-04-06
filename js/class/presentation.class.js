@@ -59,13 +59,13 @@ Presentation.prototype.getBlockById = function (idBlock) {
 
 /**
  * Retourne cette présentation sous format HTML
- * @return {HTML
+ * @return {HTML}
  */
 Presentation.prototype.export = function () {
   // on trie les slides par position avant de commencer
   this.slides.sort(function (a, b) {
     return a.position - b.position;
-  })
+  });
   var liste_slides = "";
   for (var i = 0; i < this.slides.length; i++) {
     var slide = this.slides[i];

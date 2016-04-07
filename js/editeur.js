@@ -372,19 +372,6 @@ function addBlock(slide_object, type, blockContent, blockContent2, blockContent3
   return b;
 }
 
-/**
- * Met à jour l'affichage du background avec les données d'un nouveau fond
- * @param  {data URI} newBackground : les données du nouveau background
- * @return {void}
- */
-function changeCurrentBackground (newBackground) {
-  $("#currentBG").remove();
-  var back = "<div id='currentBG' style='position: absolute; left: 0%; top: 0%; width: 100%; height: 100%; z-index: -1'>";
-  back += "<div class='imageclass'><img src='" + newBackground + "'></div>";
-  back += "</div>";
-  $("#current-slide").append(back);
-}
-
 
 /**
  * Met à jour l'affichage des slides
@@ -392,7 +379,9 @@ function changeCurrentBackground (newBackground) {
  */
 function majAffichage() {
 	$("#current-slide").html(CURRENT_SLIDE.toHTML());
-  changeCurrentBackground (CURRENT_SLIDE.background);
+	$("#current-slide").css({
+		"background-image": "url(" + CURRENT_SLIDE.background + ")"
+	});
 	listenersARefresh();
 	majDrag();
 }
@@ -637,7 +626,9 @@ $(document).ready(function() {
 	// 2. partie logique
 	var s = new Slide('1', 0);
 	pres.addSlide(s);
-  changeCurrentBackground (s.background);
+	$("#current-slide").css({
+		"background-image": "url(" + s.background + ")"
+	});
 
 	selectSlide($("#slide-list li").first());
 
@@ -1084,7 +1075,9 @@ $(document).ready(function() {
 	            // l'image est chargée
 	            var bg = e.target.result;
 	            CURRENT_SLIDE.background = bg;
-	            changeCurrentBackground (bg);
+	            $("#current-slide").css({
+					"background-image": "url(" + bg + ")"
+				});
 
 	            // MAJ de l'affichage et des données de position/taille du nv bloc
 	        	majAffichage();
@@ -1101,7 +1094,6 @@ $(document).ready(function() {
 
   	// Gestion de la séléction d'un fichier image lors de l'édition d'un BlockPicture.
   	$("#valid-picture-edit").on('click', function(e) {
-      $(".loading-screen").show();
 	    var block = pres.getBlockById($("#idbloc").val());
 
 	    var colLeg = $("#bg-descPicture-selector-edit").val();
@@ -1115,17 +1107,19 @@ $(document).ready(function() {
 	    // maj de l'image
 	    var input = $("#picture-file-edit")[0];
 	    if (input.files && input.files[0]) {
+        $(".loading-screen").show();
 	      var reader = new FileReader();
           reader.onloadend = function () {
             $(".loading-screen").hide();
           }
 	        reader.onload = function (e) {
-	            // l'image est chargée
-	            block.content = e.target.result; // maj du bloc
-	            // MAJ de l'affichage et des données de position/taille du nv bloc
+            // l'image est chargée
+            block.content = e.target.result; // maj du bloc
+            var calculSize = BlockPicture.getImageSize(e.target.result);
+            block.width = calculSize["width"];
+            block.height = calculSize["height"];
+            // MAJ de l'affichage et des données de position/taille du nv bloc
 	        	majAffichage();
-	            majSize($("#block-" + block.id));
-	            majPos($("#block-" + block.id));
 	        	closePopup();// Fermeture de la popup
 	        }
 	        reader.readAsDataURL(input.files[0]);

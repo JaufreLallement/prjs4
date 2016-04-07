@@ -372,6 +372,19 @@ function addBlock(slide_object, type, blockContent, blockContent2, blockContent3
   return b;
 }
 
+/**
+ * Met à jour l'affichage du background avec les données d'un nouveau fond
+ * @param  {data URI} newBackground : les données du nouveau background
+ * @return {void}
+ */
+function changeCurrentBackground (newBackground) {
+  $("#currentBG").remove();
+  var back = "<div id='currentBG' style='position: absolute; left: 0%; top: 0%; width: 100%; height: 100%; z-index: -1'>";
+  back += "<div class='imageclass'><img src='" + newBackground + "'></div>";
+  back += "</div>";
+  $("#current-slide").append(back);
+}
+
 
 /**
  * Met à jour l'affichage des slides
@@ -379,9 +392,7 @@ function addBlock(slide_object, type, blockContent, blockContent2, blockContent3
  */
 function majAffichage() {
 	$("#current-slide").html(CURRENT_SLIDE.toHTML());
-	$("#current-slide").css({
-		"background-image": "url(" + CURRENT_SLIDE.background + ")"
-	});
+  changeCurrentBackground (CURRENT_SLIDE.background);
 	listenersARefresh();
 	majDrag();
 }
@@ -626,9 +637,7 @@ $(document).ready(function() {
 	// 2. partie logique
 	var s = new Slide('1', 0);
 	pres.addSlide(s);
-	$("#current-slide").css({
-		"background-image": "url(" + s.background + ")"
-	});
+  changeCurrentBackground (s.background);
 
 	selectSlide($("#slide-list li").first());
 
@@ -1075,9 +1084,7 @@ $(document).ready(function() {
 	            // l'image est chargée
 	            var bg = e.target.result;
 	            CURRENT_SLIDE.background = bg;
-	            $("#current-slide").css({
-					"background-image": "url(" + bg + ")"
-				});
+	            changeCurrentBackground (bg);
 
 	            // MAJ de l'affichage et des données de position/taille du nv bloc
 	        	majAffichage();

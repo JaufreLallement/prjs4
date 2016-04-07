@@ -12,7 +12,26 @@
  */
 var BlockPicture = function (x, y, content, desc, colorLegend) {
   this.type = "Picture";
-	// on détermine le ratio de l'image
+  var calculSize = BlockPicture.getImageSize(content);
+
+	Block.call (this, x, y, calculSize["width"], calculSize["height"]);
+	this.content = content;
+	this.desc = desc;
+  	this.colorLegend = colorLegend;
+}
+
+// Héritage
+BlockPicture.prototype = new Block();
+
+/**
+ * Méthode de classe. Calcule la taille d'une image en fonction des données URI de celle-ci
+ * @param  {[data URI]} content : données de l'image
+ * @return {[array]} largeur et hauteur de l'image (pourcentage de la vue)
+ */
+BlockPicture.getImageSize = function (content) {
+  var res = new Array();
+
+  // on détermine le ratio de l'image
 	var imgTemp = new Image();
 	imgTemp.src = content;
 	var widthTemp = imgTemp.width;
@@ -27,28 +46,25 @@ var BlockPicture = function (x, y, content, desc, colorLegend) {
 	// on réduit si la taille est > 70%
 	if (height_percent_img > 70 || width_percent_img > 70) {
 
-	// on recalcule les tailles en px
-	if (height_percent_img > width_percent_img) {
-	  heightTemp = height_px_editeur / 2;
-	  widthTemp = heightTemp / ratio;
-	} else {
-	  widthTemp = width_px_editeur / 2;
-	  heightTemp = widthTemp * ratio;
-	}
+  	// on recalcule les tailles en px
+  	if (height_percent_img > width_percent_img) {
+  	  heightTemp = height_px_editeur / 2;
+  	  widthTemp = heightTemp / ratio;
+  	} else {
+  	  widthTemp = width_px_editeur / 2;
+  	  heightTemp = widthTemp * ratio;
+  	}
 
-	// puis on repasse en %
-	width_percent_img = (widthTemp / width_px_editeur) * 100;
-	height_percent_img = (heightTemp / height_px_editeur) * 100;
-	}
+  	// puis on repasse en %
+  	res["width"] = (widthTemp / width_px_editeur) * 100;
+  	res["height"] = (heightTemp / height_px_editeur) * 100;
+  } else {
+    res["width"] = width_percent_img;
+    res["height"] = height_percent_img;
+  }
 
-	Block.call (this, x, y, width_percent_img, height_percent_img);
-	this.content = content;
-	this.desc = desc;
-  	this.colorLegend = colorLegend;
+  return res;
 }
-
-// Héritage
-BlockPicture.prototype = new Block();
 
 /**
  * Returne l'aspect HTML de ce bloc (dans l'éditeur)
@@ -89,4 +105,3 @@ BlockPicture.prototype.clone = function () {
 	o.type = this.type;
   return o;
 }
-

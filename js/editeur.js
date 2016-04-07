@@ -385,14 +385,13 @@ function changeCurrentBackground (newBackground) {
   $("#current-slide").append(back);
 }
 
-
 /**
  * Met à jour l'affichage des slides
  * @return {void}
  */
 function majAffichage() {
 	$("#current-slide").html(CURRENT_SLIDE.toHTML());
-  changeCurrentBackground (CURRENT_SLIDE.background);
+	changeCurrentBackground (CURRENT_SLIDE.background);
 	listenersARefresh();
 	majDrag();
 }
@@ -637,7 +636,7 @@ $(document).ready(function() {
 	// 2. partie logique
 	var s = new Slide('1', 0);
 	pres.addSlide(s);
-  changeCurrentBackground (s.background);
+	changeCurrentBackground (s.background);
 
 	selectSlide($("#slide-list li").first());
 
@@ -1101,7 +1100,6 @@ $(document).ready(function() {
 
   	// Gestion de la séléction d'un fichier image lors de l'édition d'un BlockPicture.
   	$("#valid-picture-edit").on('click', function(e) {
-      $(".loading-screen").show();
 	    var block = pres.getBlockById($("#idbloc").val());
 
 	    var colLeg = $("#bg-descPicture-selector-edit").val();
@@ -1115,17 +1113,19 @@ $(document).ready(function() {
 	    // maj de l'image
 	    var input = $("#picture-file-edit")[0];
 	    if (input.files && input.files[0]) {
+        $(".loading-screen").show();
 	      var reader = new FileReader();
           reader.onloadend = function () {
             $(".loading-screen").hide();
           }
 	        reader.onload = function (e) {
-	            // l'image est chargée
-	            block.content = e.target.result; // maj du bloc
-	            // MAJ de l'affichage et des données de position/taille du nv bloc
+            // l'image est chargée
+            block.content = e.target.result; // maj du bloc
+            var calculSize = BlockPicture.getImageSize(e.target.result);
+            block.width = calculSize["width"];
+            block.height = calculSize["height"];
+            // MAJ de l'affichage et des données de position/taille du nv bloc
 	        	majAffichage();
-	            majSize($("#block-" + block.id));
-	            majPos($("#block-" + block.id));
 	        	closePopup();// Fermeture de la popup
 	        }
 	        reader.readAsDataURL(input.files[0]);

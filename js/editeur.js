@@ -920,6 +920,7 @@ $(document).ready(function() {
 
 	$(function(){
 
+		// Flèche vers la gauche, texte à droite
         $( "#slides-container, #ajout-slide, #suppr-slide, #dupl-slide" ).tooltip({
             position: {
                 my: "right center",
@@ -937,6 +938,7 @@ $(document).ready(function() {
         });
 
 
+        // Flèche vers le bas, texte en haut, décalé.
         $( ".jqte_editor" ).tooltip({
             position: {
                 my: "left right",
@@ -959,6 +961,7 @@ $(document).ready(function() {
         });
 
 
+        // Flèche vers la droite, texte à gauche.
         $( "#bloc-list li, #title-input, #slide-title" ).tooltip({
             position: {
                 my: "right center",
@@ -976,11 +979,29 @@ $(document).ready(function() {
         });
 
 
-
+        // Flèche vers le haut, texte en bas
         $( "#open-existing-pres, #new-pres-link, #open-pres, #dl-pres, #export-pres, #title, #current-slide, #change-background" ).tooltip({
             position: {
                 my: "center top+20",
                 at: "center bottom",
+                using: function( position, feedback ) {
+                    $( this ).css( position );
+                    $( "<div>" )
+                    .addClass( "arrow" )
+                    .addClass( feedback.vertical )
+                    .addClass( feedback.horizontal )
+                    .appendTo( this );
+                }
+            },
+            show:{delay:500}
+        });
+
+
+        // Flèche vers le bas, texte en haut
+        $( "#bg-descPicture-selector" ).tooltip({
+            position: {
+                my: "center bottom",
+                at: "center top-15",
                 using: function( position, feedback ) {
                     $( this ).css( position );
                     $( "<div>" )

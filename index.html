@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="./css/jquery-ui.css">
 		<link rel="stylesheet" type="text/css" href="./css/glyphicon.css">
 		<link rel="stylesheet" type="text/css" href="./css/editeur.css">
-    <!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'> -->
+    	<!-- <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'> -->
 
 		<script src="./js/fullscreen_var.js"></script>
 		<script src="./js/jquery_var.js"></script>
@@ -33,10 +33,18 @@
 	</head>
 
 	<body>
+
+		<!-- Header 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<header>
 			<h1 id="title" title="Double-cliquez ici pour éditer le titre de votre présentation">Ma Présentation</h1>
 		</header>
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
+
+
+		<!-- Shaders 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<a id="shade"></a>
 
 		<a id="white-shade">
@@ -44,13 +52,17 @@
 			<span id ="warning" class="glyphicon glyphicon-warning-sign"></span>
 			<div id="open-error" class="error"></div>
 		</a>
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-		<!-- Popup d'initialisation du titre -->
+
+
+		<!-- Popup d'initialisation du titre 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<div id="title-popup" class="popup">
 			<span class="close">X</span>
 
 			<form id="title-form">
-				<legend>Choisissez un titre pour votre présentation</legend>
+				<legend>Titre de la présentation</legend>
 
 				<input type="text" id="title-input" name="title" title="Ajoutez votre titre ici">
 
@@ -63,10 +75,12 @@
 
 			<div class="error">Aucun texte détecté.</div>
 		</div>
-		<!-- -->
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Popup de création d'une slide -->
+
+		<!-- Popup de création d'une slide 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<div id="slide-popup" class="popup">
 			<span class="close">X</span>
 
@@ -80,17 +94,19 @@
 
 			<div class="error">Aucun texte détecté.</div>
 		</div>
-		<!-- -->
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Popup de suppression d'une slide -->
+
+		<!-- Popup de suppression d'une slide 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<div id="suppr-popup" class="popup">
 			<span class="close">X</span>
 
 			<form id="slide-suppr-form">
 				<legend>Êtes-vous certain de vouloir supprimer cette slide?</legend>
 
-				<div id="suppr-popup-buttons">
+				<div class="button">
 					<button type="button" id="valid-suppr" class="valid">Oui</button>
 					<button type="button" id="cancel-suppr" class="cancel">Non</button>
 				</div>
@@ -98,10 +114,12 @@
 
 			<div class="error">Votre présentation doit comporter au minimum une slide.</div>
 		</div>
-		<!-- -->
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Popup de création d'un bloc texte -->
+
+		<!-- Popup de création d'un bloc texte 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<div id="text-popup" class="popup">
 			<span class="close">X</span>
 
@@ -110,15 +128,17 @@
 
 				<textarea class="text-area"></textarea>
 
-				<button type="button" id="valid-text" class="valid">Valider</button>
+				<button type="button" id="valid-text" class="valid blocButton">Valider</button>
 			</form>
 
 			<div class="error"></div>
 		</div>
-		<!-- -->
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Popup d'édition' d'un bloc texte -->
+
+		<!-- Popup d'édition' d'un bloc texte 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<div id="text-popup-edit" class="popup">
 			<span class="close">X</span>
 
@@ -127,15 +147,17 @@
 
 				<textarea class="text-area"></textarea>
 
-				<button type="button" id="valid-text-edit" class="valid">Valider</button>
+				<button type="button" id="valid-text-edit" class="valid blocButton">Valider</button>
 			</form>
 
 			<div class="error"></div>
 		</div>
-		<!-- -->
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Popup de création d'un bloc image -->
+
+		<!-- Popup de création d'un bloc image 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<div id="picture-popup" class="popup">
 			<span class="close">X</span>
 
@@ -151,15 +173,17 @@
                     <option value="noir">Noir</option>
                 </select>
 
-				<button type="button" id="valid-picture" class="valid">Valider</button>
+				<button type="button" id="valid-picture" class="valid blocButton">Valider</button>
 			</form>
 
 			<div class="error"></div>
 		</div>
-		<!-- -->
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Popup d'édition d'un bloc image -->
+
+		<!-- Popup d'édition d'un bloc image 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<div id="picture-popup-edit" class="popup">
 			<span class="close">X</span>
 
@@ -175,15 +199,17 @@
                     <option value="noir">Noir</option>
                 </select>
 
-				<button type="button" id="valid-picture-edit" class="valid">Valider</button>
+				<button type="button" id="valid-picture-edit" class="valid blocButton">Valider</button>
 			</form>
 
 			<div class="error"></div>
 		</div>
-		<!-- -->
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Popup de création d'un bloc video -->
+
+		<!-- Popup de création d'un bloc video 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<div id="video-popup" class="popup">
 			<span class="close">X</span>
 
@@ -195,40 +221,46 @@
 
 				<input type="text" id="video-desc" name="description" class="text-area">
 
-				<button type="button" id="valid-video" class="valid">Valider</button>
+				<button type="button" id="valid-video" class="valid blocButton">Valider</button>
 			</form>
 
 			<div class="error"></div>
 		</div>
-		<!-- -->
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Popup de création d'un bloc array -->
+
+		<!-- Popup de création d'un bloc array 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<div id="array-popup" class="popup">
 			<span class="close">X</span>
 
 			<form id="array-form">
 				<legend>Tableau à ajouter</legend>
 
-				<div id="arrayRows">
-					<p> Nombre de lignes </p>
-					<input id="nRows" type="number" step="1" min="1" max="30" value="1">
+				<div id="nR-nC">
+					<div id="arrayRows">
+						<p> Nombre de lignes </p>
+						<input id="nRows" type="number" step="1" min="1" max="30" value="1">
+					</div>
+
+					<div id="arrayCols">
+						<p> Nombre de colonnes </p>
+						<input id="nCols" type="number" step="1" min="1" max="30" value="1">
+					</div>
 				</div>
 
-				<div id="arrayCols">
-					<p> Nombre de colonnes </p>
-					<input id="nCols" type="number" step="1" min="1" max="30" value="1">
-				</div>
-
-				<button type="button" id="valid-array" class="valid">Valider</button>
+				<button type="button" id="valid-array" class="valid blocButton">Valider</button>
 			</form>
 
 			<div class="error"></div>
 		</div>
-		<!-- -->
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Popup d'édition' d'une cellule de tableau -->
+
+		<!-- Popup d'édition' d'une cellule de tableau 
+		––––––––––––––––––––––––––––––––––––––––––––––––––-->
 		<div id="table-edit" class="popup">
 			<span class="close">X</span>
 
@@ -237,15 +269,17 @@
 
 				<textarea class="text-area"></textarea>
 
-				<button type="button" id="valid-table-edit" class="valid">Valider</button>
+				<button type="button" id="valid-table-edit" class="valid blocButton">Valider</button>
 			</form>
 
 			<div class="error"></div>
 		</div>
-		<!-- -->
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Popup de modification du background -->
+
+		<!-- Popup de modification du background 
+		––––––––––––––––––––––––––––––––––––––––––––––––––-->
 		<div id="background-popup" class="popup">
 			<span class="close">X</span>
 
@@ -260,10 +294,12 @@
 
 			<div class="error"></div>
 		</div>
-		<!-- -->
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Conteneur des slides -->
+
+		<!-- Conteneur des slides 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<aside id="slides">
 			<h2>Slides</h2>
 
@@ -278,10 +314,12 @@
 				<button id="dupl-slide" class="dupl" onclick="dupliquer()" title="Dupliquer la slide courante">Dupliquer</button>
 			</div>
 		</aside>
-		<!-- -->
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Toolbox -->
+
+		<!-- Toolbox 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<div id="toolbox">
 			<a target="_blank" id="new-pres-link" href="" title="Cliquez ici pour ouvrir une nouvelle présentation"><span id="new-pres" class="glyphicon glyphicon-file"></span></a>
 			<span id="open-pres" class="glyphicon glyphicon-folder-open openButton" title="Cliquez ici pour ouvrir une présentation existante"></span>
@@ -289,18 +327,22 @@
 			<a id="dl-pres" title="Cliquez ici pour sauvegarder"><span id="save-pres" class="glyphicon glyphicon-floppy-save"></span></a>
 			<a id="exp-pres"><span id="export-pres" class="glyphicon glyphicon-export" title="Cliquez ici pour générer votre présentation"></span></a>
 		</div>
-		<!-- -->
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Emplacement du contenu de la slide sélectionnée -->
+
+		<!-- Emplacement du contenu de la slide sélectionnée 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<article id="current-slide" >
 		</article>
 
-		<!-- -->
 		<button id="change-background" title="Cliquez pour modifier le background de cette slide">Changer le background</button>
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 
-		<!-- Conteneur des blocs -->
+
+		<!-- Conteneur des blocs 
+		–––––––––––––––––––––––––––––––––––––––––––––––––– -->
 		<aside id="blocs">
 			<h2>Blocs</h2>
 
@@ -313,11 +355,7 @@
 				</ul>
 			</div>
 		</aside>
-		<!-- -->
-
-
-		<footer>
-		</footer>
+		<!-- –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
     <div class="loading-screen">CHARGEMENT...</div>
 	</body>

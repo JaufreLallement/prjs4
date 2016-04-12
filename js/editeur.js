@@ -7,14 +7,13 @@
 /* -------------------------------------- VARIABLES GLOBALES -------------------------------------- */
 var pres = new Presentation('Ma Présentation'); // Nouvelle présentation.
 
-SELECTEDSLIDE = null; // Slide actuellement sélectionnées.
+SELECTEDSLIDE = null; // Slide actuellement sélectionnée (graphique)
 NBSLIDE = $("#slide-list").length; // Nombre de slides
 SELECTEDSLIDETITLE = '';
 EDITING = false; // Statut, true si l'édition d'une slide est en cours, false sinon.
 EDITING_TITLE = false; // true si l'édition du titre est en cours, false sinon.
 DRAG = false; // true si une slide est en train d'être déplacée, false sinon.
-
-CURRENT_SLIDE = null; // slide actuellement sélectionnée
+CURRENT_SLIDE = null; // slide actuellement sélectionnée (objet)
 /* -------------------------------------- FIN VARIABLES GLOBALES -------------------------------------- */
 
 
@@ -373,6 +372,18 @@ function addBlock(slide_object, type, blockContent, blockContent2, blockContent3
   return b;
 }
 
+/**
+ * Met à jour l'affichage du background avec les données d'un nouveau fond
+ * @param  {data URI} newBackground : les données du nouveau background
+ * @return {void}
+ */
+function changeCurrentBackground (newBackground) {
+  $("#currentBG").remove();
+  var back = "<div id='currentBG' style='position: absolute; left: 0%; top: 0%; width: 100%; height: 100%; z-index: -1'>";
+  back += "<div class='imageclass'><img src='" + newBackground + "'></div>";
+  back += "</div>";
+  $("#current-slide").append(back);
+}
 
 /**
  * Met à jour l'affichage des slides
@@ -380,9 +391,7 @@ function addBlock(slide_object, type, blockContent, blockContent2, blockContent3
  */
 function majAffichage() {
 	$("#current-slide").html(CURRENT_SLIDE.toHTML());
-	$("#current-slide").css({
-		"background-image": "url(" + CURRENT_SLIDE.background + ")"
-	});
+	changeCurrentBackground (CURRENT_SLIDE.background);
 	listenersARefresh();
 	majDrag();
 }
@@ -627,9 +636,7 @@ $(document).ready(function() {
 	// 2. partie logique
 	var s = new Slide('1', 0);
 	pres.addSlide(s);
-	$("#current-slide").css({
-		"background-image": "url(" + s.background + ")"
-	});
+	changeCurrentBackground (s.background);
 
 	selectSlide($("#slide-list li").first());
 
@@ -913,6 +920,7 @@ $(document).ready(function() {
 
 	$(function(){
 
+		// Flèche vers la gauche, texte à droite
         $( "#slides-container, #ajout-slide, #suppr-slide, #dupl-slide" ).tooltip({
             position: {
                 my: "right center",
@@ -930,6 +938,7 @@ $(document).ready(function() {
         });
 
 
+        // Flèche vers le bas, texte en haut, décalé.
         $( ".jqte_editor" ).tooltip({
             position: {
                 my: "left right",
@@ -952,6 +961,7 @@ $(document).ready(function() {
         });
 
 
+        // Flèche vers la droite, texte à gauche.
         $( "#bloc-list li, #title-input, #slide-title" ).tooltip({
             position: {
                 my: "right center",
@@ -969,11 +979,29 @@ $(document).ready(function() {
         });
 
 
-
+        // Flèche vers le haut, texte en bas
         $( "#open-existing-pres, #new-pres-link, #open-pres, #dl-pres, #export-pres, #title, #current-slide, #change-background" ).tooltip({
             position: {
                 my: "center top+20",
                 at: "center bottom",
+                using: function( position, feedback ) {
+                    $( this ).css( position );
+                    $( "<div>" )
+                    .addClass( "arrow" )
+                    .addClass( feedback.vertical )
+                    .addClass( feedback.horizontal )
+                    .appendTo( this );
+                }
+            },
+            show:{delay:500}
+        });
+
+
+        // Flèche vers le bas, texte en haut
+        $( "#bg-descPicture-selector" ).tooltip({
+            position: {
+                my: "center bottom",
+                at: "center top-15",
                 using: function( position, feedback ) {
                     $( this ).css( position );
                     $( "<div>" )
@@ -1013,6 +1041,7 @@ $(document).ready(function() {
 
 	// Gestion de la séléction d'un fichier image lors de la création d'un BlockPicture.
   	$("#valid-picture").on('click', function(e) {
+      $(".loading-screen").show();
 	    var error = $("#picture-popup .error");
 	    var input = $("#picture-file")[0];
 
@@ -1021,16 +1050,19 @@ $(document).ready(function() {
 
 	    if (input.files && input.files[0]) {
 	      var reader = new FileReader();
-	        reader.onload = function (e) {
-	            // l'image est chargée
-	            blockContent = e.target.result;
-	            var b = addBlock(CURRENT_SLIDE, "image", blockContent, $("#picture-form .jqte_editor").html(), fondLegende); // Ajout du bloc
-	            // MAJ de l'affichage et des données de position/taille du nv bloc
-	        	majAffichage();
-	            majSize($("#block-" + b.id));
-	            majPos($("#block-" + b.id));
-	        	closePopup();// Fermeture de la popup
-	        }
+        reader.onloadend = function () {
+          $(".loading-screen").hide();
+        }
+        reader.onload = function (e) {
+          // l'image est chargée
+          blockContent = e.target.result;
+          var b = addBlock(CURRENT_SLIDE, "image", blockContent, $("#picture-form .jqte_editor").html(), fondLegende); // Ajout du bloc
+          // MAJ de l'affichage et des données de position/taille du nv bloc
+      	  majAffichage();
+          majSize($("#block-" + b.id));
+          majPos($("#block-" + b.id));
+      	  closePopup();// Fermeture de la popup
+        }
 
 	        reader.readAsDataURL(input.files[0]);
 	    }
@@ -1059,18 +1091,20 @@ $(document).ready(function() {
 
   	// Gestion de la sélection d'un fichier image pour le fond d'écran de la slide actuelle
   	$("#valid-background").on('click', function(e) {
+      $(".loading-screen").show();
 	    var error = $("#background-popup .error");
 	    var input = $("#background-file")[0];
 
 	    if (input.files && input.files[0]) {
 	      var reader = new FileReader();
+          reader.onloadend = function () {
+            $(".loading-screen").hide();
+          }
 	        reader.onload = function (e) {
 	            // l'image est chargée
 	            var bg = e.target.result;
 	            CURRENT_SLIDE.background = bg;
-	            $("#current-slide").css({
-					"background-image": "url(" + bg + ")"
-				});
+	            changeCurrentBackground (bg);
 
 	            // MAJ de l'affichage et des données de position/taille du nv bloc
 	        	majAffichage();
@@ -1100,14 +1134,19 @@ $(document).ready(function() {
 	    // maj de l'image
 	    var input = $("#picture-file-edit")[0];
 	    if (input.files && input.files[0]) {
+        $(".loading-screen").show();
 	      var reader = new FileReader();
+          reader.onloadend = function () {
+            $(".loading-screen").hide();
+          }
 	        reader.onload = function (e) {
-	            // l'image est chargée
-	            block.content = e.target.result; // maj du bloc
-	            // MAJ de l'affichage et des données de position/taille du nv bloc
+            // l'image est chargée
+            block.content = e.target.result; // maj du bloc
+            var calculSize = BlockPicture.getImageSize(e.target.result);
+            block.width = calculSize["width"];
+            block.height = calculSize["height"];
+            // MAJ de l'affichage et des données de position/taille du nv bloc
 	        	majAffichage();
-	            majSize($("#block-" + block.id));
-	            majPos($("#block-" + block.id));
 	        	closePopup();// Fermeture de la popup
 	        }
 	        reader.readAsDataURL(input.files[0]);
@@ -1144,11 +1183,15 @@ $(document).ready(function() {
 
   	// Gestion de la séléction d'un fichier image lors de la création d'un BlockVideo.
 	$("#valid-video").on('click', function(e) {
+      $(".loading-screen").show();
 	    var error = $("#video-popup .error");
 	    var input = $("#video-file")[0];
 
 	    if (input.files && input.files[0]) {
 	      var reader = new FileReader();
+          reader.onloadend = function () {
+            $(".loading-screen").hide();
+          }
 	        reader.onload = function (e) {
 	            // l'image est chargée
 	            blockContent = e.target.result;
@@ -1182,7 +1225,11 @@ $(document).ready(function() {
 	    	$("#white-shade").show();
 	    	$("#open-error").slideDown(350);
 	    } else {
+        $(".loading-screen").show();
 	      var reader = new FileReader();
+        reader.onloadend = function () {
+          $(".loading-screen").hide();
+        }
 	        reader.onload = function (e) {
 	            var jsonFile = e.target.result;
 

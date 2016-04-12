@@ -8,23 +8,26 @@
 
 body {
 	overflow-x: hidden;
-	overflow-y: auto;
+	overflow-y: hidden;
 	font-family: 'Open Sans', sans-serif;
 }
 
 /* Gestion des polices */
 h1  {
 	font-size: 55px;
-	word-wrap: break-word;
+	white-space: pre-wrap;
 }
 
 #title {
 	cursor: pointer;
+	padding: 0;
+	margin: 0;
 }
 
 h2 {
 	font-size: 35px;
 	word-wrap: break-word;
+	white-space: nowrap;
 }
 
 h1, h2 {
@@ -36,47 +39,38 @@ h1, h2 {
 
 /* Gestion des boutons */
 button {
+	padding: 1%;
 	clear: both;
-	width: 40%;
-	padding: 5px;
 	background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(220, 220, 220, 0.6));
 	border: 1px solid rgba(0, 0, 0, 0.5);
 	border-radius: 5px;
 	margin: auto;
 	display: block;
+	white-space: pre-wrap;
 }
 
 #ajout-slide, #suppr-slide, #dupl-slide {
-	width: 70%;
 	padding: 2%;
-	margin-top: 1%;
+	margin-top: 2%;
+	width: 80%;
 }
 
 #slide-buttons {
-	position: absolute;
 	width: 100%;
-	bottom: 8%;
 }
 
 #slide-popup button {
-	width: 40%;
-	padding: 1.5%;
+	padding: 1% 8% 1% 8%;
 	margin-top: 5%;
 }
 
-#text-popup button, #text-popup-edit button {
+.blocButton {
 	width: 40%;
-	padding: 1%;
 	margin-top: 0;
-}
-
-#suppr-popup-buttons {
-	display: flex;
 }
 
 #suppr-popup button {
 	width: 20%;
-	padding: 1.5%;
 }
 
 #picture-popup button, #picture-popup-edit button {
@@ -107,21 +101,20 @@ button {
 
 .button {
 	display: flex;
+	margin-top: 4%;
+	margin-bottom: 4%;
 }
 
 .button button {
 	width: 30%;
-	margin-bottom: 2%;
-	margin-top: 4%;
 	padding: 1.5%;
 }
 
 #change-background {
 	position: absolute;
-	bottom: 5%;
+	bottom: 1%;
 	left: 50%;
 	transform: translateX(-50%);
-	width: 15%;
 	padding: 0.5%;
 }
 
@@ -138,7 +131,6 @@ button:hover {
 	padding: 0;
 	margin: 0;
 }
-
 
 .no-style {
 	list-style-type: none;
@@ -167,7 +159,11 @@ legend {
 }
 
 .popup legend {
-	margin-bottom: 8%;
+	margin-bottom: 6%;
+}
+
+#suppr-popup legend {
+	margin-bottom: 12%;
 }
 
 input {
@@ -212,6 +208,7 @@ input[inactive=true]{
 
 #title-input {
 	width: 65%;
+	margin-bottom: 8%;
 	clear: both;
 }
 
@@ -262,8 +259,8 @@ header {
 /* Gestion de la fermeture des popups */
 .close {
 	position: absolute;
-	right: 10px;
-	top: 10px;
+	right: 15px;
+	top: 6px;
 	font-size: 25px;
 	font-weight: bold;
 	cursor: pointer;
@@ -283,7 +280,7 @@ header {
 	left: 0;
 	z-index: 4;
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 	background-color: rgba(0, 0, 0, 0.8);
   	display: none;
 }
@@ -294,7 +291,7 @@ header {
 	left: 0;
 	z-index: 10;
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 	background-color: rgba(255, 255, 255, 0.8);
   	display: none;
 }
@@ -341,59 +338,77 @@ header {
 }
 
 #title-popup {
-	min-width: 25%;
-	max-width: 25%;
+	width: 25vw;
 }
 
 #background-popup {
-	min-width: 25%;
-	max-width: 25%;
+	width: 25vw;
 }
 
 #suppr-popup {
-	min-width: 22%;
-	max-width: 22%;
+	width: 25vw;
+	min-height: 20vh;
 }
 
 #slide-popup {
-	min-width: 22%;
-	max-width: 22%;
+	min-width: 50vw;
+	max-width: 50vw;
 }
 
 #text-popup {
-	min-width: 45%;
-	max-width: 35%;
+	width: 40vw;
 }
 
 #array-popup {
-	min-width: 25%;
-	max-width: 25%;
+	width: 25vw;
+	min-height: 22vh;
 }
 
 /* Gestion de la popup Array*/
-#arrayRows {
-	width: 50%;
-	float: left;
-	margin-bottom: 5%;
+#nR-nC {
+	display: flex;
+	margin-bottom: 8%;
 }
 
-#arrayCols {
-	width: 50%;
-	float: right;
-	margin-bottom: 5%;
+#arrayRows, #arrayCols {
+	width: 50%;	
+}
+
+#arrayRows p, #arrayCols p {
+	font-size: 14px;
+}
+
+@media screen and (max-width: 1100px) {
+	#array-popup, #background-popup {
+		width: 30vw;
+	}
+
+	#suppr-popup {
+		width: 40vw;
+	}
+
+	#arrayRows p, #arrayCols p {
+		font-size: 12px;
+	}
 }
 
 @media screen and (max-width: 900px) {
-	#arrayRows {
-		width: 100%;
-		clear: both;
-		margin-bottom: 0;
+	#array-popup, #title-popup, #background-popup {
+		width: 35vw;
 	}
 
-	#arrayCols {
-		width: 100%;
-		clear: both;
-		margin-bottom: 8%;
+	#suppr-popup {
+		width: 50vw;
+	}
+}
+
+@media screen and (max-width: 700px) {
+	#array-popup, #title-popup, #background-popup {
+		width: 45vw;
+	}
+
+	#suppr-popup {
+		width: 60vw;
 	}
 }
 
@@ -405,10 +420,7 @@ header {
 
 /* SLIDES */
 #slides {
-	left: 1%;
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
+	left: 0.5%;
 }
 #slides h2, #blocs h2 {
 	height: 7%;
@@ -417,37 +429,40 @@ header {
 #slides, #blocs {
 	position: absolute;
 	background-color: rgba(200, 200, 200, 0.5);
-	width: 13%;
-	height: 60vh;
 	top: 25%;
-	padding: 0% 0% 2% 0%;
+	padding: 0% 1% 2% 1%;
+	min-width: 130px;
+	width: 12vw;
 	text-align: center;
 	border-radius: 5px;
 	display: block;
-	word-wrap: break-word;
+	z-index: 2;
 }
 
 .container {
-	width: 90%;
 	background-color: rgba(185, 185, 185, 0.5);
 	border-radius: 5px;
+	padding: 0% 5% 0% 5%;
 	overflow-y: auto;
-	height: 57%;
-	max-height: 57%;
+	min-width: 120px;
+	width: 10vw;
+	max-width: 10vw;
+	height: 30vh;
+	max-height: 30vh;
 	margin-bottom: 5%;
-	margin-left: 5%;
+	margin-left: 50%;
+	transform: translateX(-50%);
 }
 /* FIN SLIDES */
 
 
 /* BLOCS */
 #blocs {
-	right: 1%;
+	right: 0.5%;
 }
 
 #bloc-list, #slide-list {
-	width: 80%;
-	margin-left: 10%;
+	width: 100%;
 	text-align: center;
 }
 
@@ -459,16 +474,13 @@ header {
 
 #slide-list li, #bloc-list li {
 	padding: 5%;
+	white-space: pre-wrap;
 }
 
 #bloc-list li:hover, #slide-list li:hover {
 	cursor: pointer;
 	font-weight: bold;
 	color: rgba(0, 38, 153, 1);
-}
-
-#bloc-list li:hover {
-	cursor: pointer;
 }
 /* FIN BLOCS */
 /* Fin de gestion des asides */
@@ -487,7 +499,8 @@ header {
 	background-size: cover;
 	border-radius: 5px;
 	left: 22%;
-	margin-top: 0.5%;
+	margin-top: 1%;
+	z-index: 1;
 }
 /* Fin de gestion de la slide */
 
@@ -697,10 +710,10 @@ td, th {
 
 /* Gestion de la Toolbox */
 #toolbox {
-	width: 15%;
+	max-width: 160px;
 	font-size: 20px;
 	border-radius: 5px;
-	margin-top: 3%;
+	margin-top: 2%;
 	padding: 0.5%;
 	margin-left: 50%;
 	transform: translateX(-50%);
@@ -709,7 +722,7 @@ td, th {
 }
 
 #dl-pres, #new-pres-link, #open-pres  {
-	margin-right: 10%;
+	margin-right: 8%;
 }
 
 #toolbox a:visited {
@@ -729,29 +742,19 @@ td, th {
 
 
 /* Gestion fenêtre loading */
-.modal {
+.loading-screen {
     color: #000;
     font-weight: bold;
     font-size: 26px;
-    padding-top: 45vh;
+    display: none;
     text-align: center;
-    display:    none;
-    position:   fixed;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    background: rgba( 255, 255, 255, .8 )
-                50% 50%
-                no-repeat;
-}
-
-body.loading {
-    overflow: hidden;
-}
-
-body.loading .modal {
-    display: block;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding-top: 45vh;
 }
 /* Fin gestion loading */

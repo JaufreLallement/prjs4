@@ -656,7 +656,7 @@ $(document).ready(function() {
 
 
 	// On évite le rechargement de la page.
-	$("form").submit(function(e) {
+	$("form").on('submit', function(e) {
 		e.preventDefault();
 	});
 

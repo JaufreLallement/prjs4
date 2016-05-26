@@ -620,14 +620,6 @@ function listenersARefresh() {
 /* -------------------------------------- GESTION DES LISTENERS, ETC. -------------------------------------- */
 $(document).ready(function() {
 
-	setInterval(function () {
-	   var largeur = $("#current-slide").width();
-	   $("#current-slide").height(largeur * 9 / 16);
-
-     var nb = largeur / 50;
-     $("#current-slide").css("font-size", nb + "px");
-	}, 10);
-
 	// Création de la slide par défaut
 	// 1. partie graphique
 	$("#slide-list").append("<li id='slide-0'>1</li>");

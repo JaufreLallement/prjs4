@@ -474,6 +474,7 @@ aside {
 
 .container {
 	font-size: 20px;
+	text-align: center;
 	background-color: rgba(185, 185, 185, 0.5);
 	border-radius: 5px;
 	padding: 0% 5% 0% 5%;
@@ -495,12 +496,13 @@ aside {
 }
 
 #bloc-list li, #slide-list li {
+	width: 100%;
 	text-align: center;	
 	border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 #slide-list li, #bloc-list li {
-	padding: 5%;
+	padding: 5% 0% 5% 0%;
 	white-space: pre-wrap;
 }
 
@@ -909,10 +911,6 @@ td, th {
 	aside {
 		height: 320px;
 	}
-
-	#toolbox {
-		margin-top: 10px;
-	}
 }
 
 @media screen and (max-height: 430px) {
@@ -982,7 +980,6 @@ td, th {
 
 	aside {
 		top: 30px;
-		height: 250px;
 	}
 
 	.aside-title {
@@ -999,14 +996,202 @@ td, th {
 	}
 
 	#current-slide {
-		height: 168.75px;
-		width: 300px;
 		top: 150px;
 	}
 
 	#change-background {
 		top: 266px;
 		height: 30px;
+	}
+}
+
+@media screen and (max-width: 730px) {
+	#title, #title input {
+		font-size: 45px;
+	}
+
+	aside {
+		height: 350px;
+		width: 140px;
+		padding-left: 2px;
+		padding-right: 2px;
+	}
+
+	button {
+		font-size: 13px;
+	}
+
+	.aside-title {
+		font-size: 25px;
+	}
+
+	.container {
+		width: auto;
+		font-size: 15px;
+		padding-left: 3px;
+		padding-right: 3px;
+	}
+
+	#toolbox {
+		font-size: 18px;
+	}
+}
+
+@media screen and (max-width: 680px) {
+	#title, #title input {
+		font-size: 40px;
+	}
+
+	aside {
+		height: 300px;
+		width: 100px;
+		min-width: 50px;
+	}
+
+	button {
+		font-size: 11px;
+	}
+
+	.aside-title {
+		font-size: 22px;
+	}
+
+	.container {
+		font-size: 11px;
+		width: 80px;
+		min-width: 50px;
+	}
+
+	#slides-container {
+		height: 145px;
+	}
+
+	#blocs-container {
+		height: 235px;
+	}
+
+	#slide-list li, #bloc-list li {
+		width: calc(100% - 4px);
+		padding-left: 2px;
+		padding-right: 2px;
+		margin: 0;
+	}
+
+	#toolbox {
+		font-size: 15px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	aside {
+		top: 50px;
+	}
+}
+
+@media screen and (max-width: 500px) {
+	#title, #title input {
+		font-size: 35px;
+	}
+
+	aside {
+		height: 250px;
+		width: 80px;
+		min-width: 50px;
+	}
+
+	button {
+		font-size: 10px;
+	}
+
+	.aside-title {
+		font-size: 18px;
+	}
+
+	.container {
+		font-size: 11px;
+		width: 60px;
+		min-width: 50px;
+	}
+
+	#slides-container {
+		height: 115px;
+	}
+
+	#blocs-container {
+		height: 190px;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	aside {
+		height: 200px;
+	}
+
+	#slides-container {
+		height: 90px;
+	}
+
+	#blocs-container {
+		height: 150px;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	#title, #title input {
+		font-size: 30px;
+	}
+
+	aside {
+		width: 50px;
+	}
+
+	.aside-title {
+		font-size: 15px;
+	}
+
+	button {
+		font-size: 8px;
+	}
+
+	.container {
+		min-width: 40px;
+		width: 40px;
+	}
+
+	#toolbox {
+		width: 120px;
+		font-size: 12px;
+	}
+}
+
+@media screen and (max-width: 300px) {
+	aside {
+		top: 80px;
+	}
+}
+
+@media screen and (max-aspect-ratio: 730/630) {
+	#toolbox {
+		margin-top: 100px;
+	}
+
+	aside {
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	#slides-container {
+		max-height: 230px;
+	}
+
+	#blocs-container {
+		max-height: 345px;
+	}
+}
+
+@media screen and (max-height: 470px) {
+	#toolbox {
+		margin-top: 10px;
 	}
 }
 /* -------------------------------------------------------------------------------------------------- */

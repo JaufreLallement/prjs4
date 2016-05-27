@@ -235,8 +235,7 @@ function updateSlideList (){
 }
 
 /**
-* Fonction permettant d'ajouter une slide à l'interface
-* ainsi que de l'ajouter aux données de la présentation.
+* Fonction permettant de modifier le titre d'une slide.
 * @param {Object:html} slide : slide à modifier.
 * @return {void}
 */
@@ -247,7 +246,7 @@ function editSlide (slide) {
 
 	selectSlide(slide);
 
-	slide.html("<input value='" + slideTitle + "'>"); // On remplace par un input.
+	slide.html("<input class='slide-title-edit' value='" + slideTitle + "'>"); // On remplace par un input.
 
 	var slideInput = slide.find("input"); // On récupère l'input.
 
@@ -954,7 +953,7 @@ $(document).ready(function() {
 
 
         // Flèche vers la droite, texte à gauche.
-        $( "#bloc-list li, #title-input, #slide-title" ).tooltip({
+        $( "#bloc-list li" ).tooltip({
             position: {
                 my: "right center",
                 at: "left-10 center",

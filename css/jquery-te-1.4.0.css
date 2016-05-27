@@ -9,12 +9,9 @@
 
 /* editor's general field */
 .jqte {
-	min-width: 100%;
-	max-width: 100%;
 	resize: none;
 	text-align: left;
-	min-width: 100%;
-	max-width: 100%;
+	width: 1000px;
 	margin:30px 0;
 	border:#000 1px solid;
 	border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px;
@@ -344,25 +341,14 @@
 .jqte_editor, .jqte_source {
 	padding:10px;
 	background:#FFF;
-	min-height:200px;
-	max-height:200px;
+	height: 300px;
+	width: 980px;
 	overflow-y:auto;
 	overflow-x:hidden; 
 	outline:none;
 	word-wrap:break-word; -ms-word-wrap:break-word;
 	resize:none
 }
-
-#picture-popup .jqte_editor, #video-popup .jqte_editor, #picture-popup-edit .jqte_editor, #picture-popup-edit .jqte_editor {
-	min-height:100px;
-	max-height:100px;
-}
-
-.jqte_source {
-	min-width: 600px;
-	max-width: 600px;
-}
-
 
 .jqte_editor div, .jqte_editor p {
 	margin:0 0 7px
